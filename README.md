@@ -94,6 +94,7 @@ docker exec -it bd7a29f05d2c /bin/bash
 ```
 
 ## Docker Compose
+* Copy `.env.example` to `.env`
 * Copy `docker-compose.skeleton.yml` to `docker-compose.yml`
 * Build & running
   ```

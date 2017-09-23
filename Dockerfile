@@ -1,6 +1,7 @@
 FROM ubuntu:16.04
 MAINTAINER ZeroC0D3 Team <zeroc0d3.team@gmail.com>
 
+ENV DEBIAN_FRONTEND noninteractive
 ENV WINE_MONO_VERSION 4.5.6
 ENV WINE_GECKO_VERSION 2.40
 
@@ -17,24 +18,28 @@ RUN echo "deb http://archive.ubuntu.com/ubuntu xenial main restricted universe m
     && echo "deb http://archive.ubuntu.com/ubuntu xenial-security main restricted universe multiverse >> /etc/apt/sources.list" \
     && echo "deb-src http://archive.ubuntu.com/ubuntu xenial-security main restricted universe multiverse >> /etc/apt/sources.list" \
     && echo "deb http://archive.canonical.com/ubuntu xenial partner >> /etc/apt/sources.list" \
-    && echo "deb-src http://archive.canonical.com/ubuntu xenial partner >> /etc/apt/sources.list" \
-    && apt-get -y update
+    && echo "deb-src http://archive.canonical.com/ubuntu xenial partner >> /etc/apt/sources.list"
 
-RUN apt-get -y install --no-install-recommends \
-      curl \
-      unzip \
-      ca-certificates \
-      software-properties-common \
-    && add-apt-repository -y ppa:ubuntu-wine/ppa
+RUN apt-get -y update \
+    && apt-get -y install wget \
+    && mkdir -p /usr/share/wine/gecko \
+    && wget "http://dl.winehq.org/wine/wine-gecko/${WINE_GECKO_VERSION}/wine_gecko-${WINE_GECKO_VERSION}-x86.msi" -O /usr/share/wine/gecko/wine_gecko-${WINE_GECKO_VERSION}-x86.msi \
+    && chmod +x /usr/share/wine/gecko/wine_gecko-${WINE_GECKO_VERSION}-x86.msi \
+    && wget "http://dl.winehq.org/wine/wine-gecko/${WINE_GECKO_VERSION}/wine_gecko-${WINE_GECKO_VERSION}-x86_64.msi" -O /usr/share/wine/gecko/wine_gecko-${WINE_GECKO_VERSION}-x86_64.msi \
+    && chmod +x /usr/share/wine/gecko/wine_gecko-${WINE_GECKO_VERSION}-x86_64.msi \
+    && mkdir -p /usr/share/wine/mono \
+    && wget "http://dl.winehq.org/wine/wine-mono/${WINE_MONO_VERSION}/wine-mono-${WINE_MONO_VERSION}.msi" -O /usr/share/wine/mono/wine-mono-${WINE_MONO_VERSION}.msi \
+    && chmod +x /usr/share/wine/mono/wine-mono-${WINE_MONO_VERSION}.msi \
+    && apt-get -y remove --purge wget \
+    && apt-get -y autoremove --purge \
+    && apt-get -y clean  \
+    && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 RUN dpkg --add-architecture i386 \
     && apt-get -y update \
-    && apt-get -y install --no-install-recommends \
-         wine1.8 \
-         wine-gecko$WINE_GECKO_VERSION:i386 \
-         wine-gecko$WINE_GECKO_VERSION:amd64 \
-         wine-mono$WINE_MONO_VERSION \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get -y install --no-install-recommends software-properties-common \
+    && add-apt-repository ppa:ubuntu-wine/ppa \
+    && apt-get -y update \
 
 RUN apt-get -y install curl \
       dosbox \
@@ -44,24 +49,34 @@ RUN apt-get -y install curl \
       xvfb \
       wget
 
-RUN curl -SL 'https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks' -o /usr/local/bin/winetricks \
-    && chmod +x /usr/local/bin/winetricks
+RUN apt-get -y install --no-install-recommends \
+      wine1.8 \
+      winetricks \
+      winbind
 
-RUN mkdir -p /usr/share/wine/mono \
-    && curl -SL 'http://sourceforge.net/projects/wine/files/Wine%20Mono/$WINE_MONO_VERSION/wine-mono-$WINE_MONO_VERSION.msi/download' -o /usr/share/wine/mono/wine-mono-$WINE_MONO_VERSION.msi \
-    && chmod +x /usr/share/wine/mono/wine-mono-$WINE_MONO_VERSION.msi
+#-----------------------------------------------------------------------------
+# Cleanup Installation
+#-----------------------------------------------------------------------------
+RUN apt-get -y remove --purge software-properties-common \
+    && apt-get -y autoremove --purge \
+    && apt-get -y clean \
+    && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
-RUN apt-get -y purge software-properties-common \
-    && apt-get -y autoclean
+#-----------------------------------------------------------------------------
+# Create User
+#-----------------------------------------------------------------------------
+ENV USERNAME wine
+RUN useradd -u 1001 -d /home/${USERNAME} -m -s /bin/bash wine && \
+    mkdir /tmp/.X11-unix && \
+    chmod 1777 /tmp/.X11-unix
 
-USER zeroc0d3
-ENV HOME /home/zeroc0d3 \
-    WINEPREFIX /home/zeroc0d3/.wine \
+USER ${USERNAME}
+ENV HOME /home/${USERNAME} \
+    WINEPREFIX /home/${USERNAME}/.wine \
     WINEARCH win32 \
     WINEDEBUG -all
 
-WORKDIR /home/zeroc0d3
-
+WORKDIR ${HOME}
 RUN echo "alias winegui='wine explorer /desktop=DockerDesktop,1024x768'" > ~/.bash_aliases
 
 #-----------------------------------------------------------------------------

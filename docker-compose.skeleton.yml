@@ -13,6 +13,9 @@ services:
     environment:
       - WINE_MONO_VERSION=${WINE_MONO_VERSION}
       - WINE_GECKO_VERSION=${WINE_GECKO_VERSION}
+      - USERNAME=${USERNAME}
+      - WINEARCH=${WINEARCH}
+      - WINEDEBUG=${WINEDEBUG}
     networks:
       - backend
 

@@ -10,6 +10,9 @@ services:
       context: .
     volumes:
       - /etc/localtime:/etc/localtime:ro
+    environment:
+      - WINE_MONO_VERSION=${WINE_MONO_VERSION}
+      - WINE_GECKO_VERSION=${WINE_GECKO_VERSION}
     networks:
       - backend
 

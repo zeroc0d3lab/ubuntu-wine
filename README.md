@@ -1,5 +1,5 @@
 # Ubuntu-Wine
-Docker Ubuntu-Wine, based on Ubuntu 16.04 & Wine 1.8
+Ubuntu-Wine Docker, based on Ubuntu 16.04 & Wine 1.8
 
 ## How to ?
 * Build container

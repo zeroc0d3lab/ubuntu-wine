@@ -94,7 +94,7 @@ docker exec -it bd7a29f05d2c /bin/bash
 ```
 
 ## Docker Compose
-* Copy docker-compose.skeleton.yml to docker-compose.yml
+* Copy `docker-compose.skeleton.yml` to `docker-compose.yml`
 * Build & running
   ```
   docker-compose build && docker-compose up

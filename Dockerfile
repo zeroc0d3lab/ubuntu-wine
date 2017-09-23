@@ -32,8 +32,8 @@ RUN apt-get -y install software-properties-common \
     && add-apt-repository -y ppa:ubuntu-wine/ppa \
     && apt-get -y update
 
-RUN apt-get -y install wine1.8 \
-      winetricks
+RUN apt-get -y install wine1.8
+ONBUILD RUN apt-get -y install winetricks
 
 RUN apt-get -y purge software-properties-common \
     && apt-get -y autoclean

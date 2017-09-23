@@ -37,11 +37,14 @@ RUN apt-get -y update \
 
 RUN dpkg --add-architecture i386 \
     && apt-get -y update \
-    && apt-get -y install --no-install-recommends software-properties-common \
+    && apt-get -y install --no-install-recommends \
+         software-properties-common \
+         ca-certificates \
     && add-apt-repository ppa:ubuntu-wine/ppa \
     && apt-get -y update
 
-RUN apt-get -y install curl \
+RUN apt-get -y install --no-install-recommends \
+      curl \
       dosbox \
       p7zip \
       p7zip-full \
@@ -77,7 +80,7 @@ ENV HOME /home/${USERNAME} \
     WINEDEBUG -all
 
 WORKDIR ${HOME}
-RUN echo "alias winegui='wine explorer /desktop=DockerDesktop,1024x768'" > ~/.bash_aliases
+# RUN echo "alias winegui='wine explorer /desktop=DockerDesktop,1024x768'" > ~/.bash_aliases
 
 #-----------------------------------------------------------------------------
 # Run Init Docker Container

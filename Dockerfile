@@ -57,7 +57,7 @@ RUN apt-get -y purge software-properties-common \
 USER zeroc0d3
 ENV HOME /home/zeroc0d3 \
     WINEPREFIX /home/zeroc0d3/.wine \
-    WINEARCH win32
+    WINEARCH win32 \
     WINEDEBUG -all
 
 WORKDIR /home/zeroc0d3

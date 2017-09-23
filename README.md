@@ -94,13 +94,12 @@ docker exec -it bd7a29f05d2c /bin/bash
 ```
 
 ## Docker Compose
-* Build container
-  1. Copy docker-compose.skeleton.yml to docker-compose.yml
-  2. Build & running
-     ```
-     docker-compose build && docker-compose up
-     ```
-  3. Force recreate container
-     ```
-     docker-compose build && docker-compose up --force-recreate
-     ```
+* Copy docker-compose.skeleton.yml to docker-compose.yml
+* Build & running
+  ```
+  docker-compose build && docker-compose up
+  ```
+* Force recreate container
+  ```
+  docker-compose build && docker-compose up --force-recreate
+  ```

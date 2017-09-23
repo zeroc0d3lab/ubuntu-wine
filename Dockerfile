@@ -39,7 +39,7 @@ RUN dpkg --add-architecture i386 \
     && apt-get -y update \
     && apt-get -y install --no-install-recommends software-properties-common \
     && add-apt-repository ppa:ubuntu-wine/ppa \
-    && apt-get -y update \
+    && apt-get -y update
 
 RUN apt-get -y install curl \
       dosbox \
@@ -66,9 +66,9 @@ RUN apt-get -y remove --purge software-properties-common \
 # Create User
 #-----------------------------------------------------------------------------
 ENV USERNAME wine
-RUN useradd -u 1001 -d /home/${USERNAME} -m -s /bin/bash wine && \
-    mkdir /tmp/.X11-unix && \
-    chmod 1777 /tmp/.X11-unix
+RUN useradd -u 1001 -d /home/${USERNAME} -m -s /bin/bash wine \
+    && mkdir /tmp/.X11-unix \
+    && chmod 1777 /tmp/.X11-unix
 
 USER ${USERNAME}
 ENV HOME /home/${USERNAME} \

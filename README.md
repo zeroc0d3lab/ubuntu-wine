@@ -5,7 +5,7 @@
 
 Ubuntu-Wine Docker, based on Ubuntu 16.04 & Wine 1.8
 
-## How to ?
+## How To Start ?
 * Build container
 ```
 docker build -it [name_container] .

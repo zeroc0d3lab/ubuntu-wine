@@ -83,6 +83,6 @@ WORKDIR ${HOME}
 # RUN echo "alias winegui='wine explorer /desktop=DockerDesktop,1024x768'" > ~/.bash_aliases
 
 #-----------------------------------------------------------------------------
-# Run Init Docker Container
+# Run Docker Container
 #-----------------------------------------------------------------------------
 CMD []

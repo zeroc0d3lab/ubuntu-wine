@@ -41,12 +41,12 @@ example:
 docker ps
 
 CONTAINER ID        IMAGE                   COMMAND                  CREATED             STATUS              PORTS               NAMES
-bd7a29f05d2c        f1aea966a1e2            "/bin/sh -c 'apt-g..."   26 minutes ago      Up 26 minutes                           mystifying_chandrasekhar
+bd7a29f05d2c        f1aea966a1e2            "/bin/sh -c 'apt-g..."   26 minutes ago      Up 26 minutes                           ubuntu-wine
 80bda8ce44c1        docker/compose:1.11.1   "/usr/bin/docker-c..."   26 minutes ago      Up 26 minutes                           serene_booth
 ```
 
 ```
-docker inspect mystifying_chandrasekhar    ## Or ##
+docker inspect ubuntu-wine    ## Or ##
 docker inspect bd7a29f05d2c
 
 [
@@ -93,7 +93,7 @@ docker inspect bd7a29f05d2c
 ```
 
 ```
-docker exec -it mystifying_chandrasekhar /bin/bash  ## Or ##
+docker exec -it ubuntu-wine /bin/bash  ## Or ##
 docker exec -it bd7a29f05d2c /bin/bash
 ```
 
@@ -110,8 +110,8 @@ docker exec -it bd7a29f05d2c /bin/bash
   ```
 * Running container only
   ```
-  docker-compose up 
+  docker-compose up
   ```
-  
+
 ## License
 [**MIT License**](https://github.com/zeroc0d3lab/ubuntu-wine/blob/master/LICENSE)
